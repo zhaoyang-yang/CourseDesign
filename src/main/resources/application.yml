@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://114.116.213.241:3306/2018214433?serverTimezone=Asia/Shanghai
+    username: 2018214433
+    password: 2018214433
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**mapper.xml
+server:
+  port: 8081
+shiro-redis:
+  enabled: true
+  redis-manager:
+    host: 127.0.0.1:6379
+markerhub:
+  jwt:
+    # 加密秘钥
+    secret: zhao123#$#$
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: token
