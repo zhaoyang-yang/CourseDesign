@@ -5,14 +5,14 @@
     data: 返回请求结果
 }
 
-接口:
-	登录: user/login   			
-	    请求体: username,password,type	
-	    返回值的data:成功{
-	                    userid: int ,(用户id)
-	                    usercompany: string
-	                    }
-	失败data:null message里有失败信息
+    接口:
+        登录: user/login   			
+            请求体: username,password,type	
+            返回值的data:成功{
+                            userid: int ,(用户id)
+                            usercompany: string
+                            }
+        失败data:null message里有失败信息
 	
 	
 	注册: user/register  			
