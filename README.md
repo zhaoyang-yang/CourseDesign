@@ -36,12 +36,12 @@
         
         
         取消预约: user/cancelpre		
-        请求体: labid,userid,{week,day,time}(预约时间)	week:int   day:'星期一'~'星期日' time: 1~5
+        请求体: labid,userid,week,day,time(预约时间)	week:int   day:'星期一'~'星期日' time: 1~5
         返回值里的data: 成功 取消后的用户预约情况(结构同上)
         
         
         预约实验室: user/choselab		
-        请求体: labid,week,day,time		
+        请求体: labid,[{week,day,time},...]
         返回值里的data: 成功 返回取消后的用户预约情况
         
         
