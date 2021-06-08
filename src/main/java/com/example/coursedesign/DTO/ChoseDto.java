@@ -17,9 +17,10 @@ public class ChoseDto {
 
     private List<Date> pretimes;
     @NotNull
-    private int week;
-    @NotNull
-    private String day;
-    @NotNull
-    private int time;
+    private List<Mydate> dates;
+//    private int week;
+//    @NotNull
+//    private String day;
+//    @NotNull
+//    private int time;
 }
