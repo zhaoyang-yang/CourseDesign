@@ -66,8 +66,10 @@ public class UserController {
     @ResponseBody
     public Result login(@Validated @RequestBody LoginDto loginDto,HttpServletResponse response){
         User user = service.getUserbyId(loginDto.getId());
-        Assert.notNull(user,"用户不存在");
-        if (loginDto.getUsertype() != user.getType())
+//        Assert.notNull(user,"用户不存在");
+        if(user == null)
+            return Result.fail("用户不存在");
+        if (loginDto.getType() != user.getType())
             return Result.fail("请检查用户类型");
 
         if(!user.getPassword().equals(loginDto.getPassword()))
@@ -78,7 +80,8 @@ public class UserController {
         response.setHeader("Access-control-Expose-Headers","Authorization");
 
         return Result.succ(MapUtil.builder()
-                            .put("userid",user.getId())
+                            .put("id",user.getId())
+                            .put("name",user.getName())
                             .put("usercompany",user.getCompany())
                             .map());
     }
@@ -93,7 +96,6 @@ public class UserController {
 
     /**获取所有实验室ID**/
     @GetMapping("getlabs")
-    @RequiresAuthentication
     public Result getlabs(){
         return Result.succ(service.getlabs());
     }
@@ -101,7 +103,7 @@ public class UserController {
     /**查预约情况 返回List集合**/
     @GetMapping("getuserlabs")
     @RequiresAuthentication
-    public Result getuserlabs(long userid){
+    public Result getuserlabs(long userid,HttpServletResponse response){
         if (userid != ShiroUntil.getprofile().getId())
             return Result.fail("你不是该用户，不能查看");
         Assert.isTrue(userid == ShiroUntil.getprofile().getId(),"你不是该用户，不能查看"+ShiroUntil.getprofile().getId());
@@ -112,13 +114,14 @@ public class UserController {
     /**取消预约 返回用户预约信息**/
     @PostMapping("cancelpre")
     @RequiresAuthentication
-    public Result cancelpre(@Validated @RequestBody Predete predete){
+    public Result cancelpre(@Validated @RequestBody Predete predete,HttpServletResponse response){
 
         predete.setUserid(ShiroUntil.getprofile().getId());
 
         // 查询是否已预约
         int flag = 0;
         List<Predete> p1 = service.selectPredeteByTwoId(predete.getUserid(), predete.getLabid());
+        System.out.println(p1);
         for (Predete pre1 : p1) {
             if (predete.getWeek()==pre1.getWeek() && predete.getDay().equals(pre1.getDay()) && predete.getTime()==pre1.getTime())
                 flag = 1;
@@ -147,27 +150,29 @@ public class UserController {
     /**预约实验室**/
     @PostMapping("choselab")
     @RequiresAuthentication
-    public Result choselab(@Validated @RequestBody ChoseDto choseDto){
+    public Result choselab(@Validated @RequestBody ChoseDto choseDto,HttpServletResponse response){
 
-        choseDto.setUserid(ShiroUntil.getprofile().getId());
+        long id = ShiroUntil.getprofile().getId();
+        choseDto.setUserid(id);
+        choseDto.setUsername(service.getUserbyId(id).getName());
         List<Mydate> selectdates = service.selectPretimeByLabid(choseDto.getLabid());
-        List<Mydate> dates = choseDto.getDates();
-        for (Mydate date : dates) {
-            if (selectdates.stream().filter(o -> o.getDay().equals(date.getDay()))
-                    .filter(o->o.getWeek()==date.getWeek())
-                    .filter(o->o.getTime()==date.getTime())
+        Mydate dates = choseDto.getDates();
+
+            if (selectdates.stream().filter(o -> o.getDay().equals(dates.getDay()))
+                    .filter(o->o.getWeek()==dates.getWeek())
+                    .filter(o->o.getTime()==dates.getTime())
                     .findAny().isPresent())  //如果已被选择
 //                throw new Exception("实验室"+choseDto.getLabid()+"在"+date+"已被选择");
-                return Result.fail("实验室"+choseDto.getLabid()+"在"+date+"已被选择");
+                return Result.fail("实验室"+choseDto.getLabid()+"在"+dates+"已被选择");
             Predete predete = new Predete();
             predete.setLabid(choseDto.getLabid());
             predete.setUserid(choseDto.getUserid());
             predete.setUsername(choseDto.getUsername());
-            predete.setWeek(date.getWeek());
-            predete.setDay(date.getDay());
-            predete.setTime(date.getTime());
+            predete.setWeek(dates.getWeek());
+            predete.setDay(dates.getDay());
+            predete.setTime(dates.getTime());
             service.choseLab(predete);
-        }
+
         return  Result.succ(service.selectPredeteByUserid(choseDto.getUserid()));
     }
 

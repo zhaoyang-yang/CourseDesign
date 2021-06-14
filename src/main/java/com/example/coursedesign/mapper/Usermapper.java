@@ -14,7 +14,7 @@ import java.util.List;
 public interface Usermapper {
 
     //通过id获取用户
-    @Select("select * from user where id = ${id}")
+    @Select("select * from user where id = #{id}")
     public User getuserByid(@Param("id") long id);
 
     //插入用户
@@ -42,7 +42,7 @@ public interface Usermapper {
     public List<Predete> selectpredetebytwoid(@Param("userid") long userid,@Param("labid") int labid);
 
     //退选实验室
-    @Delete("delete from predete where userid=#{userid} and labid=#{labid} and pretime=#{pretime}")
+    @Delete("delete from predete where userid=#{userid} and labid=#{labid} and week=#{week} and day=#{day} and time=#{time}")
     public void cancelpre(Predete predete);
 
     //选用实验室

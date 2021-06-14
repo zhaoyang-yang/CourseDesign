@@ -12,7 +12,7 @@ import java.sql.Date;
 public class Predete {
 
     private String username;
-    @NotNull(message = "实验室id不能为空")
+
     private int labid;
     @NotNull(message = "用户id不能为空")
     private long userid;
