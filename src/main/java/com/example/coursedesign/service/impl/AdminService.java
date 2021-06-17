@@ -1,5 +1,6 @@
 package com.example.coursedesign.service.impl;
 
+import com.example.coursedesign.DTO.LabDto;
 import com.example.coursedesign.entity.User;
 import com.example.coursedesign.mapper.Adminmapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,22 @@ public class AdminService {
     //删除教师
     public void delTeacher(long id){
         adminmapper.delteacher(id);
+    }
+
+    //增加实验室
+    public void addlab(LabDto labDto){
+        adminmapper.addlab(labDto);
+    }
+
+    //获取实验室
+    public List<LabDto> getlabs(){
+        List<LabDto> labs = adminmapper.getlabs();
+        return labs;
+    }
+
+    //删除实验室
+    public void dellab(int id){
+        adminmapper.dellab(id);
     }
 }
 

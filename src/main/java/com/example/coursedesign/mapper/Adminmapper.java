@@ -1,5 +1,6 @@
 package com.example.coursedesign.mapper;
 
+import com.example.coursedesign.DTO.LabDto;
 import com.example.coursedesign.entity.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
@@ -25,4 +26,16 @@ public interface Adminmapper {
     //删除教师
     @Delete("delete from user where id = #{id}")
     public void delteacher(@Param("id") long id);
+
+    //增加实验室
+    @Insert("insert into laboratory(labid, mac_number) VALUES (#{labid},#{macnumber})")
+    public void addlab(LabDto labDto);
+
+    //获取实验室信息
+    @Select("select * from laboratory")
+    public List<LabDto> getlabs();
+
+    //删除实验室
+    @Delete("delete from laboratory where labid = #{id}")
+    public void dellab(@Param("id") int id);
 }

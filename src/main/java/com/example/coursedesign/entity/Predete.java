@@ -24,5 +24,7 @@ public class Predete {
     private String day;
     @NotNull(message = "预约时间格式不正确")
     private int time;
+    
+    private String course;
 
 }

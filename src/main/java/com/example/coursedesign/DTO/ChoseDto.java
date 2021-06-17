@@ -16,8 +16,11 @@ public class ChoseDto {
     private long userid;
 
     private List<Date> pretimes;
+
     @NotNull
     private Mydate dates;
+
+    private String course;
 //    private int week;
 //    @NotNull
 //    private String day;

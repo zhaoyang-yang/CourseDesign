@@ -38,6 +38,13 @@ public class UserController {
         return Result.succ(user);
     }
 
+    /**获取课程**/
+    @GetMapping("getcourse")
+    public Result getcourse() {
+        List<String> courses = service.getCourse();
+        return Result.succ(courses);
+    }
+
     /**注册**/
     @PostMapping("register")
     @ResponseBody
@@ -83,6 +90,7 @@ public class UserController {
                             .put("id",user.getId())
                             .put("name",user.getName())
                             .put("usercompany",user.getCompany())
+                            .put("type",user.getType())
                             .map());
     }
 
@@ -177,11 +185,12 @@ public class UserController {
     }
 
     /**根据星期查询预约**/
-    @PostMapping("weeklab")
+    @GetMapping("weeklab")
     @RequiresAuthentication
     public Result sellabbyweek(int week){
         long userid = ShiroUntil.getprofile().getId();
-        List<Mydate> mydates =service.selectLabByWeek(week,userid);
+        System.out.println(userid);
+        List<Predete> mydates =service.selectLabByWeek(week,userid);
         return Result.succ(mydates);
     }
 }

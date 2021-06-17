@@ -36,6 +36,11 @@ public class UserService {
         usermapper.updateuser(user);
     }
 
+    //获取课程
+    public List<String> getCourse(){
+        return usermapper.getcourse();
+    }
+
     //根据labid查询实验室占用
     public List<Mydate> selectPretimeByLabid(int labid){
         return usermapper.selectpretimebylabid(labid);
@@ -57,7 +62,7 @@ public class UserService {
     }
 
     //用户id和week查询
-    public List<Mydate> selectLabByWeek(int week,long userid){
+    public List<Predete> selectLabByWeek(int week,long userid){
         return usermapper.selectlabbyweek(week,userid);
     }
 

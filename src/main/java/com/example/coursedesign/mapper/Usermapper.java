@@ -25,6 +25,10 @@ public interface Usermapper {
     @Update("update user set password = #{password},name = #{name},company = #{company} where id = #{userid}")
     public void updateuser(User user);
 
+    //获取课程
+    @Select("select coursename from courses")
+    public List<String> getcourse();
+
     //获取实验室占用情况
     @Select("select week,day,time from predete where labid=#{labid}")
     public List<Mydate> selectpretimebylabid(@Param("labid") int labid);
@@ -34,8 +38,8 @@ public interface Usermapper {
     public List<Predete> selectpredetebyuserid(@Param("userid") long userid);
 
     //根据星期和用户id查实验室
-    @Select("select labid,week,day,time from predete where week=#{week} and userid=#{userid}")
-    public List<Mydate> selectlabbyweek(@Param("week") int week,@Param("userid") long userid);
+    @Select("select * from predete where week=#{week} and userid=#{userid}")
+    public List<Predete> selectlabbyweek(@Param("week") int week,@Param("userid") long userid);
 
     //根据userid和labid查询
     @Select("select * from predete where userid=#{userid} and labid=#{labid}")
@@ -46,7 +50,7 @@ public interface Usermapper {
     public void cancelpre(Predete predete);
 
     //选用实验室
-    @Insert("insert into predete(labid, userid, username, pretime,week,day,time) VALUES (#{labid},#{userid},#{username},#{pretime},#{week},#{day},#{time})")
+    @Insert("insert into predete(labid, userid, username,week,day,time,course) VALUES (#{labid},#{userid},#{username},#{week},#{day},#{time},#{course})")
     public void choselab(Predete predete);
 
     //获取所有实验室id
