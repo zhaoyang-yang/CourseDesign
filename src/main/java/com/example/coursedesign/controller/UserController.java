@@ -158,7 +158,7 @@ public class UserController {
     /**预约实验室**/
     @PostMapping("choselab")
     @RequiresAuthentication
-    public Result choselab(@Validated @RequestBody ChoseDto choseDto,HttpServletResponse response){
+    public Result choselab(@Validated @RequestBody ChoseDto choseDto, HttpServletResponse response) {
 
         long id = ShiroUntil.getprofile().getId();
         choseDto.setUserid(id);
@@ -166,22 +166,24 @@ public class UserController {
         List<Mydate> selectdates = service.selectPretimeByLabid(choseDto.getLabid());
         Mydate dates = choseDto.getDates();
 
-            if (selectdates.stream().filter(o -> o.getDay().equals(dates.getDay()))
-                    .filter(o->o.getWeek()==dates.getWeek())
-                    .filter(o->o.getTime()==dates.getTime())
-                    .findAny().isPresent())  //如果已被选择
+        if (selectdates.stream().filter(o -> o.getDay().equals(dates.getDay()))
+                .filter(o -> o.getWeek() == dates.getWeek())
+                .filter(o -> o.getTime() == dates.getTime())
+                .findAny().isPresent())  //如果已被选择
 //                throw new Exception("实验室"+choseDto.getLabid()+"在"+date+"已被选择");
-                return Result.fail("实验室"+choseDto.getLabid()+"在"+dates+"已被选择");
-            Predete predete = new Predete();
-            predete.setLabid(choseDto.getLabid());
-            predete.setUserid(choseDto.getUserid());
-            predete.setUsername(choseDto.getUsername());
-            predete.setWeek(dates.getWeek());
-            predete.setDay(dates.getDay());
-            predete.setTime(dates.getTime());
-            service.choseLab(predete);
+            return Result.fail("实验室" + choseDto.getLabid() + "在" + dates + "已被选择");
+        Predete predete = new Predete();
+        predete.setLabid(choseDto.getLabid());
+        predete.setUserid(choseDto.getUserid());
+        predete.setUsername(choseDto.getUsername());
+        predete.setCourse(choseDto.getCourse());
 
-        return  Result.succ(service.selectPredeteByUserid(choseDto.getUserid()));
+        predete.setWeek(dates.getWeek());
+        predete.setDay(dates.getDay());
+        predete.setTime(dates.getTime());
+        service.choseLab(predete);
+
+        return Result.succ(service.selectPredeteByUserid(choseDto.getUserid()));
     }
 
     /**根据星期查询预约**/

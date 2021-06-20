@@ -9,17 +9,14 @@ import java.util.List;
 
 @Data
 public class ChoseDto {
+
     private String username;
     @NotNull(message = "实验室编号不能为空")
     private int labid;
-
     private long userid;
-
     private List<Date> pretimes;
-
     @NotNull
     private Mydate dates;
-
     private String course;
 //    private int week;
 //    @NotNull

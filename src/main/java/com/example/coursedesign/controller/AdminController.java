@@ -40,13 +40,13 @@ public class AdminController {
     //更新教师信息
     @PostMapping("updatateacher")
     @RequiresAuthentication
-    public Result updatateacher(@RequestBody @Validated User user){
+    public Result updatateacher(@RequestBody User user){
         adminService.updataTeacher(user);
         return Result.succ(adminService.getTeachers());
     }
 
     //删除教师
-    @PostMapping("delteacher")
+    @GetMapping("delteacher")
     @RequiresAuthentication
     public Result delteacher(long id){
         adminService.delTeacher(id);

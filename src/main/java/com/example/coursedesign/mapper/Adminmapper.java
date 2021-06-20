@@ -12,11 +12,11 @@ import java.util.List;
 @Repository
 public interface Adminmapper {
     //获取所有教师
-    @Select("select * from user where type=1")
+    @Select("select * from user where type in (1,-1)")
     public List<User> getteachers();
 
     //修改教师信息
-    @Update("update user set name = #{name} and company = #{company} where id = #{userid}")
+    @Update("update user set type = #{type} where id = #{id}")
     public void updateteacher(User user);
 
     //插入教师
